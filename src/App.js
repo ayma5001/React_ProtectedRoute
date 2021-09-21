@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import { useState } from "react";
+import Profile from "./Profile";
+import ProtectedRoute from "./ProtectedRoute";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 function App() {
+  const [isAuth, setIsAuth] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+      <Route path="/" exact>
+        <button
+          onClick={() => {
+            setIsAuth(true);
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          signin
+        </button>
+        <button
+          onClick={() => {
+            setIsAuth(false);
+          }}
+        >
+          signout
+        </button>
+        <Link to="/profile"> Profile </Link>
+      </Route>
+      <ProtectedRoute path="/profile" component={Profile} isAuth={isAuth} />
+    </Router>
   );
 }
 
